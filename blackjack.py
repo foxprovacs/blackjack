@@ -27,7 +27,6 @@ class Card:
 				return 10
 				
 		
-
 class Deck:
 
 	def __init__(self):
@@ -56,11 +55,21 @@ class Game:
 		
 		for p in self.players.items():
 			curr_player = p[1]
-			while curr_player.should_hit():
+			print('Player ' + p[0] + ': ' + str(p[1].current_hand_value()) + ' ' + str(p[1].hand))
+			while not curr_player.is_bust() and curr_player.should_hit():
 				curr_player.add_card(self.draw())
 				
 		while self.dealer.should_hit():
 			self.dealer.add_card(self.draw())
+			
+		for p in self.players.items():
+			curr_player = p[1]
+			if curr_player.is_bust():
+				curr_player.is_winner = False
+			elif curr_player.current_hand_value() > self.dealer.current_hand_value() and not self.dealer.is_bust():
+				curr_player.is_winner = True
+			elif self.dealer.is_bust() and not curr_player.is_bust():
+				curr_player.is_winner = True
 		
 	def add_player(self, player):
 		self.players[player.name] = player
@@ -83,6 +92,7 @@ class Game:
 		self.dealer.hand = []
 		for p in self.players.items():
 			p[1].hand = []
+			p[1].is_winner = False
 	
 	def dealer_showing(self):
 		""" Players cannot see the first card drawn to the dealer """
@@ -95,6 +105,7 @@ class Player(ABC):
 		self.hand = []
 		self.name = name
 		self.game = None
+		self.is_winner = False
 		
 	def add_card(self, card):
 		self.hand.append(card)
@@ -110,6 +121,9 @@ class Player(ABC):
 				new_value = value + card.get_value(ace_is_low=True)
 			value = new_value
 		return value
+		
+	def is_bust(self):
+		return self.current_hand_value() > 21
 	
 	@abstractmethod
 	def should_hit(self):
@@ -120,6 +134,10 @@ class Player(ABC):
 
 
 class Dealer(Player):
+
+	def __init__(self):
+		super(Dealer, self).__init__()
+		self.upcard = None
 
 	def should_hit(self):
 		return self.current_hand_value() <= 16
@@ -137,19 +155,26 @@ class SmartPlayer(Player):
 			return False
 		else:
 			return True
-				
+			
+
+class RealPlayer(Player):
+
+	def should_hit(self):
+		x = input('(H)it or (S)tay? ')
+		return x.upper() == 'H'
+			
+		
 
 if __name__ == '__main__':
 	game = Game()
-	game.add_player(BasicPlayer('A'))
+	game.add_player(RealPlayer('A'))
 	
-	for i in range(1,11):
+	for i in range(1,2):
 		print('Round ' + str(i))
 		game.simulate()
 		print(game)
-		game.clear_hand()
+		#game.clear_hand()
 		print('------------------------')
-		print(len(game.cards))
 	
 	# game.players['A'].add_card(Card('A','D'))
 	# game.players['A'].add_card(Card('Q','C'))
