@@ -100,16 +100,7 @@ class Game:
 		return self.dealer.hand[1].get_value()
 
 
-if __name__ == '__main__':
-	game = Game()
-	game.add_player(blackjack_players.RealPlayer('A'))
-	
-	for i in range(1,2):
-		print('Round ' + str(i))
-		game.simulate()
-		print(game)
-		#game.clear_hand()
-		print('------------------------')
+
 	
 
 
