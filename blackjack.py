@@ -59,6 +59,7 @@ class Game:
 			print('Player ' + p[0] + ': ' + str(p[1].current_hand_value()) + ' ' + str(p[1].hand))
 			while not curr_player.is_bust() and curr_player.should_hit():
 				curr_player.add_card(self.draw())
+				print('Player ' + p[0] + ': ' + str(p[1].current_hand_value()) + ' ' + str(p[1].hand))
 				
 		while self.dealer.should_hit():
 			self.dealer.add_card(self.draw())
@@ -86,7 +87,7 @@ class Game:
 	def __repr__(self):
 		s = 'Dealer: ' + str(self.dealer.current_hand_value()) + ' ' + str(self.dealer.hand)
 		for p in self.players.items():
-			s += '\nPlayer ' + p[0] + ': ' + str(p[1].current_hand_value()) + ' ' + str(p[1].hand)
+			s += '\nPlayer ' + p[0] + ': ' + str(p[1].current_hand_value()) + ' ' + str(p[1].hand) + ' ' + 'Win=' + str(p[1].is_winner)
 		return s
 		
 	def clear_hand(self):

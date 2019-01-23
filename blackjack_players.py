@@ -62,5 +62,8 @@ class SmartPlayer(Player):
 class RealPlayer(Player):
 
 	def should_hit(self):
-		x = input('(H)it or (S)tay? ')
-		return x.upper() == 'H'
+		if self.current_hand_value() < 21:
+			x = input('(H)it or (S)tay? ')
+			return x.upper() == 'H'
+		else:
+			return False
