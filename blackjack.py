@@ -1,5 +1,4 @@
 import random
-from abc import ABC, abstractmethod
 import blackjack_players
 
 
@@ -15,15 +14,15 @@ class Card:
 	def __repr__(self):
 		return self.value + ':' + self.suit
 		
-	def get_value(self, ace_is_low = False):
+	def get_value(self, ace_is_high = False):
 		if self.value.isdigit():
 			return int(self.value)
 		else:
 			if self.value == 'A':
-				if ace_is_low:
-					return 1
-				else:
+				if ace_is_high:
 					return 11
+				else:
+					return 1
 			elif self.value in ['J','Q','K']:
 				return 10
 				
@@ -37,6 +36,39 @@ class Deck:
 				self.cards.append(Card(v,s))
 		random.shuffle(self.cards)
 				
+
+class CardHand:
+
+	def __init__(self):
+		self.cards = []
+
+	def add(self, card):
+		self.cards.append(card)
+
+	def score(self):
+		"""Calculate the value of the hand
+
+		Aces can count as 1 or 11, but in the case of holding multiple Aces only one can
+		count as 11. To account for this, cards are sorted first with Aces last. All Aces
+		will count as 1 by default. If the last card is an Ace, and the current hand value
+		is 10 or less, then that Ace will count as 11
+		"""
+
+		# Have Aces go last; easier to account for 11 or 1 values
+		sorted_cards = sorted(self.cards, key=lambda x: x.rank_order, reverse=False)
+
+		last_card_in_hand = sorted_cards[-1]
+
+		curr_value = 0
+		for card in sorted_cards:
+			curr_value += card.get_value(ace_is_high=(card == last_card_in_hand))
+
+		if last_card_in_hand.value == 'A' and curr_value > 21:
+			curr_value -= 10
+
+		return curr_value
+
+
 
 class Game:
 	
@@ -54,21 +86,23 @@ class Game:
 	def simulate(self):
 		self._deal()
 		
+		print('Dealer is showing {}'.format(self.dealer.hand))
+		
 		for p in self.players.items():
 			curr_player = p[1]
-			print('Player ' + p[0] + ': ' + str(p[1].current_hand_value()) + ' ' + str(p[1].hand))
+			print('Player ' + p[0] + ': ' + str(p[1].hand.score()) + ' ' + str(p[1].hand))
 			while not curr_player.is_bust() and curr_player.should_hit():
-				curr_player.add_card(self.draw())
-				print('Player ' + p[0] + ': ' + str(p[1].current_hand_value()) + ' ' + str(p[1].hand))
+				curr_player.hand.add(self.draw())
+				print('Player ' + p[0] + ': ' + str(p[1].hand.score()) + ' ' + str(p[1].hand))
 				
 		while self.dealer.should_hit():
-			self.dealer.add_card(self.draw())
+			self.dealer.hand.add(self.draw())
 			
 		for p in self.players.items():
 			curr_player = p[1]
 			if curr_player.is_bust():
 				curr_player.is_winner = False
-			elif curr_player.current_hand_value() > self.dealer.current_hand_value() and not self.dealer.is_bust():
+			elif curr_player.current_hand_value() > self.dealer.hand.score() and not self.dealer.is_bust():
 				curr_player.is_winner = True
 			elif self.dealer.is_bust() and not curr_player.is_bust():
 				curr_player.is_winner = True
@@ -80,9 +114,9 @@ class Game:
 	def _deal(self):
 		for i in range(1,3):
 			for p in self.players.items():
-				p[1].add_card(self.draw())
+				p[1].hand.add(self.draw())
 				
-			self.dealer.add_card(self.draw())
+			self.dealer.hand.add(self.draw())
 						
 	def __repr__(self):
 		s = 'Dealer: ' + str(self.dealer.current_hand_value()) + ' ' + str(self.dealer.hand)
