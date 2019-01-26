@@ -5,7 +5,7 @@ game = Game()
 game.add_player(blackjack_players.RealPlayer('Real Player'))
 game.add_player(blackjack_players.SmartPlayer('Smart Player'))
 
-game.simulate()
+game.play()
 print('-----------------')
 print(game)
 

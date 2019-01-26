@@ -7,12 +7,13 @@ class Card:
 	def __init__(self, value, suit):
 		self.value = value
 		self.suit = suit
+		self.is_visible = True
 		
 		# Allows for cards to sort before counting values, so that Aces can be considered for 11 or 1.
 		self.rank_order = 2 if value is 'A' else 1
 		
-	def __repr__(self):
-		return self.value + ':' + self.suit
+	def __repr__(self, force_display=False):
+		return (self.value + ':' + self.suit) if (self.is_visible and not force_display) else ''
 		
 	def get_value(self, ace_is_high = False):
 		if self.value.isdigit():
@@ -41,6 +42,12 @@ class CardHand:
 
 	def __init__(self):
 		self.cards = []
+
+	def __repr__(self):
+		s = ''
+		for card in self.cards:
+			s += str(card) + ' '
+		return s
 
 	def add(self, card):
 		self.cards.append(card)
@@ -83,7 +90,7 @@ class Game:
 	def draw(self):
 		return self.cards.pop()
 		
-	def simulate(self):
+	def play(self):
 		self._deal()
 		
 		print('Dealer is showing {}'.format(self.dealer.hand))
@@ -102,7 +109,7 @@ class Game:
 			curr_player = p[1]
 			if curr_player.is_bust():
 				curr_player.is_winner = False
-			elif curr_player.current_hand_value() > self.dealer.hand.score() and not self.dealer.is_bust():
+			elif curr_player.hand.score() > self.dealer.hand.score() and not self.dealer.is_bust():
 				curr_player.is_winner = True
 			elif self.dealer.is_bust() and not curr_player.is_bust():
 				curr_player.is_winner = True
@@ -115,13 +122,16 @@ class Game:
 		for i in range(1,3):
 			for p in self.players.items():
 				p[1].hand.add(self.draw())
-				
-			self.dealer.hand.add(self.draw())
+
+			c = self.draw()
+			if i == 1:
+				c.is_visible = False
+			self.dealer.hand.add(c)
 						
 	def __repr__(self):
-		s = 'Dealer: ' + str(self.dealer.current_hand_value()) + ' ' + str(self.dealer.hand)
+		s = 'Dealer: ' + str(self.dealer.hand.score()) + ' ' + str(self.dealer.hand)
 		for p in self.players.items():
-			s += '\nPlayer ' + p[0] + ': ' + str(p[1].current_hand_value()) + ' ' + str(p[1].hand) + ' ' + 'Win=' + str(p[1].is_winner)
+			s += '\nPlayer ' + p[0] + ': ' + str(p[1].hand.score()) + ' ' + str(p[1].hand) + ' ' + 'Win=' + str(p[1].is_winner)
 		return s
 		
 	def clear_hand(self):
@@ -132,7 +142,7 @@ class Game:
 	
 	def dealer_showing(self):
 		""" Players cannot see the first card drawn to the dealer """
-		return self.dealer.hand[1].get_value()
+		return self.dealer.hand.cards[1].get_value()
 
 
 
