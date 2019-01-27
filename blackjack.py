@@ -13,7 +13,7 @@ class Card:
 		self.rank_order = 2 if value is 'A' else 1
 		
 	def __repr__(self, force_display=False):
-		return (self.value + ':' + self.suit) if (self.is_visible and not force_display) else ''
+		return self.value if (self.is_visible and not force_display) else '_'
 		
 	def get_value(self, ace_is_high = False):
 		if self.value.isdigit():
