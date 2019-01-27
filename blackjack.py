@@ -1,5 +1,5 @@
 import random
-import blackjack_players
+import players
 
 
 class Card:
@@ -81,7 +81,7 @@ class Game:
     def __init__(self, number_of_decks=8):
         self.cards = []
         self.players = {}
-        self.dealer = blackjack_players.Dealer()
+        self.dealer = players.Dealer()
 
         for i in range(1, number_of_decks + 1):
             self.cards = self.cards + Deck().cards

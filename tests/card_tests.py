@@ -1,5 +1,5 @@
 import unittest
-from blackjack_players import BasicPlayer
+from players import BasicPlayer
 from blackjack import Card
 
 
