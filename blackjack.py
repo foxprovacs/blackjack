@@ -55,11 +55,11 @@ class CardHand:
     def score(self):
         """Calculate the value of the hand
 
-		Aces can count as 1 or 11, but in the case of holding multiple Aces only one can
-		count as 11. To account for this, cards are sorted first with Aces last. All Aces
-		will count as 1 by default. If the last card is an Ace, and the current hand value
-		is 10 or less, then that Ace will count as 11
-		"""
+        Aces can count as 1 or 11, but in the case of holding multiple Aces only one can
+        count as 11. To account for this, cards are sorted first with Aces last. All Aces
+        will count as 1 by default. If the last card is an Ace, and the current hand value
+        is 10 or less, then that Ace will count as 11
+        """
 
         # Have Aces go last; easier to account for 11 or 1 values
         sorted_cards = sorted(self.cards, key=lambda x: x.rank_order, reverse=False)
@@ -102,6 +102,8 @@ class Game:
                 print('Player ' + p[0] + ': ' + str(p[1].hand))
 
         while self.dealer.should_hit():
+            # Flip over the dealer's first card
+            self.dealer.hand.cards[0].is_visible = True
             self.dealer.hand.add(self.draw())
 
         for p in self.players.items():
