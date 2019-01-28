@@ -32,6 +32,9 @@ class Deck:
 
     def __init__(self):
         self.cards = []
+        self.reset()
+
+    def reset(self):
         for s in ['D', 'C', 'S', 'H']:
             for v in ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K', 'A']:
                 self.cards.append(Card(v, s))
@@ -55,6 +58,9 @@ class CardHand:
     def add(self, card):
         self.cards.append(card)
 
+    def clear(self):
+        self.cards = []
+        self.is_blackjack = False
 
     def score(self):
         """Calculate the value of the hand
@@ -86,11 +92,17 @@ class Game:
         self.cards = []
         self.players = {}
         self.dealer = players.Dealer()
+        self.number_of_decks = number_of_decks
 
-        for i in range(1, number_of_decks + 1):
+        self.shuffle_deck()
+
+    def shuffle_deck(self):
+        for i in range(1, self.number_of_decks + 1):
             self.cards = self.cards + Deck().cards
 
     def draw(self):
+        if len(self.cards) == 0:
+            self.shuffle_deck()
         return self.cards.pop()
 
     def play(self):
@@ -153,12 +165,11 @@ class Game:
                  + (' Win!' if p[1].is_winner else ' Lose')
         return s
 
-    def clear_hand(self):
-        self.dealer.hand = []
+    def clear(self):
+        self.dealer.hand.clear()
         for p in self.players.items():
-            p[1].hand = []
-            p[1].is_winner = False
-
+            p[1].hand.clear()
+            
     def dealer_showing(self):
         """ Players cannot see the first card drawn to the dealer """
         return self.dealer.hand.cards[1].get_value()
