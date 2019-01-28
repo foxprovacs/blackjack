@@ -5,6 +5,7 @@ game = Game()
 game.add_player(players.RealPlayer('Real Player'))
 game.add_player(players.BasicPlayer('Basic Player'))
 
+game.deal()
 game.play()
 print('-----------------')
 print(game)

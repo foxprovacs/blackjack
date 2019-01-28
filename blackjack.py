@@ -43,6 +43,9 @@ class CardHand:
     def __init__(self):
         self.cards = []
 
+        # Will be set to true if player has a natural blackjack, i.e. a 21 on first 2 cards.
+        self.is_blackjack = False
+
     def __repr__(self):
         s = ''
         for card in self.cards:
@@ -51,6 +54,7 @@ class CardHand:
 
     def add(self, card):
         self.cards.append(card)
+
 
     def score(self):
         """Calculate the value of the hand
@@ -90,8 +94,6 @@ class Game:
         return self.cards.pop()
 
     def play(self):
-        self._deal()
-
         print('Dealer is showing {}'.format(self.dealer.hand))
 
         for p in self.players.items():
@@ -122,12 +124,14 @@ class Game:
 
             if curr_player.is_bust():
                 curr_player.is_winner = False
+            elif curr_player.hand.is_blackjack and not self.dealer.hand.is_blackjack:
+                curr_player.is_winner = True
             elif curr_player_score > dealer_score:
                 curr_player.is_winner = True
             elif self.dealer.is_bust():
                 curr_player.is_winner = True
 
-    def _deal(self):
+    def deal(self):
         for i in range(1, 3):
             for p in self.players.items():
                 p[1].hand.add(self.draw())
@@ -136,6 +140,11 @@ class Game:
             if i == 1:
                 c.is_visible = False
             self.dealer.hand.add(c)
+
+        # See if anyone has Blackjack
+        for p in self.players.items():
+            p[1].hand.is_blackjack = p[1].hand.score() == 21
+        self.dealer.hand.is_blackjack = self.dealer.hand.score() == 21
 
     def __repr__(self):
         s = 'Dealer: ' + str(self.dealer.hand) + ' = ' + str(self.dealer.hand.score())
