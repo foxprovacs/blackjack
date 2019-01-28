@@ -101,23 +101,31 @@ class Game:
                 curr_player.hand.add(self.draw())
                 print('Player ' + p[0] + ': ' + str(p[1].hand))
 
+        # Flip over the dealer's first card
+        self.dealer.hand.cards[0].is_visible = True
+
         while self.dealer.should_hit():
-            # Flip over the dealer's first card
-            self.dealer.hand.cards[0].is_visible = True
             self.dealer.hand.add(self.draw())
 
-        for p in self.players.items():
-            curr_player = p[1]
-            if curr_player.is_bust():
-                curr_player.is_winner = False
-            elif curr_player.hand.score() > self.dealer.hand.score() and not self.dealer.is_bust():
-                curr_player.is_winner = True
-            elif self.dealer.is_bust() and not curr_player.is_bust():
-                curr_player.is_winner = True
+        self.set_winners()
 
     def add_player(self, player):
         self.players[player.name] = player
         player.game = self
+
+    def set_winners(self):
+        dealer_score = self.dealer.hand.score()
+
+        for p in self.players.items():
+            curr_player = p[1]
+            curr_player_score = curr_player.hand.score()
+
+            if curr_player.is_bust():
+                curr_player.is_winner = False
+            elif curr_player_score > dealer_score:
+                curr_player.is_winner = True
+            elif self.dealer.is_bust():
+                curr_player.is_winner = True
 
     def _deal(self):
         for i in range(1, 3):
@@ -133,7 +141,7 @@ class Game:
         s = 'Dealer: ' + str(self.dealer.hand) + ' = ' + str(self.dealer.hand.score())
         for p in self.players.items():
             s += '\nPlayer ' + p[0] + ': ' + str(p[1].hand) + ' = ' + str(p[1].hand.score()) \
-                 + (' Win!' if str(p[1].is_winner) else 'Lose')
+                 + (' Win!' if p[1].is_winner else ' Lose')
         return s
 
     def clear_hand(self):
