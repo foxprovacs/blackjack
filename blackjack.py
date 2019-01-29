@@ -94,6 +94,10 @@ class Game:
         self.dealer = players.Dealer()
         self.number_of_decks = number_of_decks
 
+        # Tracks the cards drawn; used for player strategies that involve some
+        # level of card counting.
+        self.cards_drawn = []
+
         self.shuffle_deck()
 
     def shuffle_deck(self):
@@ -103,17 +107,22 @@ class Game:
     def draw(self):
         if len(self.cards) == 0:
             self.shuffle_deck()
-        return self.cards.pop()
+        card = self.cards.pop()
+        self.cards_drawn.append(card)
+        return card
 
-    def play(self):
-        print('Dealer is showing {}'.format(self.dealer.hand))
+    def play(self, show_output=True):
+        if show_output:
+            print('Dealer is showing {}'.format(self.dealer.hand))
 
         for p in self.players.items():
             curr_player = p[1]
-            print('Player ' + p[0] + ': ' + str(p[1].hand))
+            if show_output:
+                print('Player ' + p[0] + ': ' + str(p[1].hand))
             while not curr_player.is_bust() and curr_player.should_hit():
                 curr_player.hand.add(self.draw())
-                print('Player ' + p[0] + ': ' + str(p[1].hand))
+                if show_output:
+                    print('Player ' + p[0] + ': ' + str(p[1].hand))
 
         # Flip over the dealer's first card
         self.dealer.hand.cards[0].is_visible = True
@@ -167,9 +176,11 @@ class Game:
 
     def clear(self):
         self.dealer.hand.clear()
+        self.dealer.is_winner = False
         for p in self.players.items():
             p[1].hand.clear()
-            
+            p[1].is_winner = False
+
     def dealer_showing(self):
         """ Players cannot see the first card drawn to the dealer """
         return self.dealer.hand.cards[1].get_value()

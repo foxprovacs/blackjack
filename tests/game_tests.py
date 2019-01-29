@@ -19,12 +19,12 @@ class TestGame(unittest.TestCase):
         player.hand.add(Card('10', 'C'))
         player.hand.add(Card('A', 'C'))
 
-        game.play()
+        game.play(show_output=False)
 
         expected = False
         actual = player.is_winner
 
-        print('Player is_winner = {0}'.format(player.is_winner))
+        # print('Player is_winner = {0}'.format(player.is_winner))
 
         self.assertEqual(expected, actual)
 
@@ -41,14 +41,30 @@ class TestGame(unittest.TestCase):
         player.hand.add(Card('10', 'S'))
         player.hand.add(Card('A', 'C'))
 
-        game.play()
+        game.play(show_output=False)
 
         expected = True
         actual = player.is_winner
 
-        print('Player is_winner = {0}'.format(player.is_winner))
+        # print('Player is_winner = {0}'.format(player.is_winner))
 
         self.assertEqual(expected, actual)
+
+    def test_cards_drawn(self):
+        """ Verify the game.cards_drawn variable is being set properly """
+        game = Game()
+        player = players.BasicPlayer()
+        game.add_player(player)
+
+        cards = []
+        for i in range(1, 101):
+            card = game.draw()
+            cards.append(card)
+
+        sum_x = sum([c.get_value() for c in cards])
+        sum_y = sum([c.get_value() for c in game.cards_drawn])
+
+        self.assertEqual(sum_x, sum_y)
 
 
 if __name__ == '__main__':

@@ -38,14 +38,24 @@ class BasicPlayer(Player):
 
 
 class SmartPlayer(Player):
+
     def should_hit(self):
-        if not self.is_bust() and self.hand.score() >= 12 and self.game.dealer_showing() < 10:
+        curr_score = self.hand.score()
+        if self.is_bust():
             return False
-        else:
+        if curr_score <= 16 and self.game.dealer_showing() >= 10:
             return True
+        else:
+            return False
 
 
-class RealPlayer(Player):
+class CraftyCardCounterPlayer(Player):
+
+    def should_hit(self):
+        return True
+
+
+class LivePlayer(Player):
 
     def should_hit(self):
         if self.hand.score() < 21:
