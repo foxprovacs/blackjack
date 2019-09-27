@@ -1,6 +1,6 @@
 import unittest
-from players import BasicPlayer
-from blackjack import Card
+from blackjack.players import BasicPlayer
+from blackjack.blackjack import Card
 
 
 class TestCardValues(unittest.TestCase):

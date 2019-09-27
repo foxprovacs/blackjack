@@ -3,10 +3,10 @@ from blackjack import Game
 
 game = Game()
 game.add_player(players.BasicPlayer('Basic Player 1'))
-game.add_player(players.BasicPlayer('Basic Player 2'))
-game.add_player(players.BasicPlayer('Basic Player 3'))
-game.add_player(players.BasicPlayer('Basic Player 4'))
-game.add_player(players.SmartPlayer('Smart Player'))
+# game.add_player(players.BasicPlayer('Basic Player 2'))
+# game.add_player(players.BasicPlayer('Basic Player 3'))
+# game.add_player(players.BasicPlayer('Basic Player 4'))
+# game.add_player(players.SmartPlayer('Smart Player'))
 
 win_tracker = {}
 
