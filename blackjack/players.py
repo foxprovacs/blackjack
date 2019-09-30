@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from blackjack import CardHand
+import blackjack as bj
 
 
 class Player(ABC):
 
     def __init__(self, name=''):
-        self.hand = CardHand()
+        self.hand = bj.CardHand()
         self.name = name
         self.game = None
         self.is_winner = False
