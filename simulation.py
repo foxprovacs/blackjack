@@ -1,9 +1,10 @@
 # from blackjack import players
 # from blackjack import Game
 
-import blackjack.blackjack as bj
 
-game = bj.Game()
+import blackjack.games as games
+
+#game = game.Game()
 # game.add_player(players.BasicPlayer('Basic Player 1'))
 # # game.add_player(players.BasicPlayer('Basic Player 2'))
 # # game.add_player(players.BasicPlayer('Basic Player 3'))

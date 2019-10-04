@@ -111,4 +111,3 @@ class CardHand:
             curr_value -= 10
 
         return curr_value
-

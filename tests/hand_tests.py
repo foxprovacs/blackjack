@@ -1,5 +1,6 @@
 import unittest
-from blackjack import Card, CardHand
+#from blackjack import Card, CardHand
+from context import cards.Card, cards.CardHand
 
 
 class TestCardHands(unittest.TestCase):
