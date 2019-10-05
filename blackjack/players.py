@@ -23,6 +23,10 @@ class Player(ABC):
     def __repr__(self):
         return self.name
 
+    # def draw(self):
+    #     c = self.game.shoe.draw()
+    #     self.curr_hand.add(c)
+
 
 class Dealer(Player):
 
@@ -33,11 +37,14 @@ class Dealer(Player):
     def should_hit(self):
         return self.curr_hand.score() <= 16
 
+    def showing(self):
+        return self.curr_hand.cards[1].get_value()
+
 
 class BasicPlayer(Player):
 
     def should_hit(self):
-        return self.curr_hand.score() <= 10
+        return self.curr_hand.score() <= 16
 
 
 class SmartPlayer(Player):

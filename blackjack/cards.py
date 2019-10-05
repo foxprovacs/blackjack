@@ -16,9 +16,9 @@ class Card:
 
     def __str__(self):
         if self.is_visible:
-            s = '({0}:{1})'.format(self.value,self.suit)
+            s = '{0}'.format(self.value)
         else:
-            s = '({0}:{1})'.format('?','?')
+            s = '{0}'.format('?')
         return s
 
     def get_value(self, ace_is_high=False):
@@ -89,10 +89,12 @@ class CardHand:
         return s
 
     def __str__(self):
-        s = ''
+        s = '('
         for card in self.cards:
-            s += str(card) + ' '
-        return s
+            s += str(card) + ' + '
+        s = s[:-2]
+        s = s + ' = ' + str(self.score())
+        return s.strip() + ')'
 
     def add(self, card):
         self.cards.append(card)

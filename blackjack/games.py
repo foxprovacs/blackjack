@@ -18,10 +18,9 @@ class Game:
         s = 'Game:\n'
         s += '\tNumber of decks = ' + str(self.number_of_decks)
         s += '\n\tPlayers:\n'
-        # s += '\t\tDealer\n'
-        s += '\t' + str(self.dealer)
+        s += '\t' + str(self.dealer) + str(self.dealer.curr_hand) + '\n'
         for p in self.players:
-            s += '\t\t' + str(p) + '\n'
+            s += '\t\t' + str(p) + ':' + str(p.curr_hand) + '\n'
     
         return s
 
@@ -42,6 +41,20 @@ class Game:
         table = self.players + [self.dealer]
         for p in table:
             print(p, str(p.curr_hand))
+
+    def play(self):
+        table = self.players + [self.dealer]
+        for p in table:
+
+            if isinstance(p, players.Dealer):
+                p.curr_hand.cards[0].is_visible = True
+
+            while not p.is_bust() and p.should_hit():
+                #print('{0} is drawing a card...'.format(p.name))
+                c = self.shoe.draw()
+                p.curr_hand.add(c)
+        
+        
 
 
     # def play(self, show_output=True):

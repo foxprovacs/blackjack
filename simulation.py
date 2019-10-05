@@ -6,13 +6,15 @@ game.add_player(players.BasicPlayer('Basic Player 1'))
 game.add_player(players.BasicPlayer('Basic Player 2'))
 game.add_player(players.BasicPlayer('Basic Player 3'))
 game.add_player(players.BasicPlayer('Basic Player 4'))
-game.add_player(players.SmartPlayer('Smart Player 1'))
+# game.add_player(players.SmartPlayer('Smart Player 1'))
 
-print(game)
+#print(game)
 
 game.deal()
-game.show_cards()
+# game.show_cards()
+game.play()
 
+print(game)
 # win_tracker = {}
 
 # number_of_hands = 10000
