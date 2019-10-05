@@ -1,5 +1,12 @@
 from abc import ABC, abstractmethod
 import blackjack.cards as cards
+from enum import Enum
+
+
+class GameStatus(Enum):
+    Win = 1
+    NotPlayed = 0
+    Loss = -1
 
 
 class Player(ABC):
@@ -8,13 +15,14 @@ class Player(ABC):
         self.curr_hand = cards.CardHand()
         self.name = name
         self.game = None
-        self.is_winner = False
+        self.game_flag = GameStatus.NotPlayed
 
     def is_bust(self):
         return self.curr_hand.score() > 21
 
     def clear(self):
         self.curr_hand = cards.CardHand()
+        self.game_flag = GameStatus.NotPlayed
 
     @abstractmethod
     def should_hit(self):
@@ -22,10 +30,6 @@ class Player(ABC):
 
     def __repr__(self):
         return self.name
-
-    # def draw(self):
-    #     c = self.game.shoe.draw()
-    #     self.curr_hand.add(c)
 
 
 class Dealer(Player):

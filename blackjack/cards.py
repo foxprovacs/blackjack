@@ -79,9 +79,6 @@ class CardHand:
     def __init__(self):
         self.cards = []
 
-        # Will be set to true if player has a natural blackjack, i.e. a 21 on first 2 cards.
-        self.is_blackjack = False
-
     def __repr__(self):
         s = ''
         for card in self.cards:
@@ -101,7 +98,9 @@ class CardHand:
 
     def clear(self):
         self.cards = []
-        self.is_blackjack = False
+
+    def is_blackjack(self):
+        return self.score() == 21 & len(self.cards) == 2
 
     def score(self):
         """Calculate the value of the hand
