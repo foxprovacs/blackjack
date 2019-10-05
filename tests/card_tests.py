@@ -98,6 +98,22 @@ class TestCardValues(unittest.TestCase):
 		max_key_count = max(cards_drawn.values())
 		self.assertEqual(max_key_count, 1 * number_of_decks)
 
+	def test_shoe_4(self):
+		shoe = cards.Shoe()
+		is_face_up = True
+		card = shoe.draw()
+		
+		actual = card.is_visible
+		self.assertEqual(actual, is_face_up)
+
+	def test_shoe_5(self):
+		shoe = cards.Shoe()
+		is_face_up = False
+		card = shoe.draw(is_face_down=True)
+		
+		actual = card.is_visible
+		self.assertEqual(actual, is_face_up)
+
 
 if __name__ == '__main__':
 	unittest.main()

@@ -1,16 +1,16 @@
-# from blackjack import players
-# from blackjack import Game
-
-
 import blackjack.games as games
+import blackjack.players as players
 
-#game = game.Game()
-# game.add_player(players.BasicPlayer('Basic Player 1'))
-# # game.add_player(players.BasicPlayer('Basic Player 2'))
-# # game.add_player(players.BasicPlayer('Basic Player 3'))
-# # game.add_player(players.BasicPlayer('Basic Player 4'))
-# # game.add_player(players.SmartPlayer('Smart Player'))
+game = games.Game()
+game.add_player(players.BasicPlayer('Basic Player 1'))
+game.add_player(players.BasicPlayer('Basic Player 2'))
+game.add_player(players.BasicPlayer('Basic Player 3'))
+game.add_player(players.BasicPlayer('Basic Player 4'))
+game.add_player(players.SmartPlayer('Smart Player 1'))
 
+print(game)
+
+game.deal()
 # win_tracker = {}
 
 # number_of_hands = 10000

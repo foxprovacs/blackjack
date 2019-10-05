@@ -60,10 +60,12 @@ class Shoe:
         for i in range(1, self.number_of_decks + 1):
             self.cards = self.cards + Deck().cards
 
-    def draw(self):
+    def draw(self, is_face_down=False):
         if len(self.cards) == 0:
             self.reset()
         card = self.cards.pop()
+        if is_face_down:
+            card.is_visible = False
         self.cards_drawn.append(card)
         return card
 

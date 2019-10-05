@@ -5,14 +5,42 @@ import blackjack.cards as cards
 class Game:
 
     def __init__(self, number_of_decks=8):
-        self.players = {}
+        self.players = []
         self.number_of_decks = number_of_decks
         self.shoe = cards.Shoe(number_of_decks)
         self.dealer = players.Dealer()
 
     def add_player(self, player):
-        self.players[player.name] = player
+        self.players.append(player)
         player.game = self
+
+    def __repr__(self):
+        s = 'Game:\n'
+        s += '\tNumber of decks = ' + str(self.number_of_decks)
+        s += '\n\tPlayers:\n'
+        # s += '\t\tDealer\n'
+        s += '\t' + str(self.dealer)
+        for p in self.players:
+            s += '\t\t' + str(p) + '\n'
+    
+        return s
+
+    def clear(self):
+        # TODO: Need to clear the dealer's hand too
+        for p in self.players:
+            p.clear()
+
+    def deal(self):
+        table = self.players + [self.dealer]
+        #print('table', table)
+        self.clear()
+        for p in table:
+            card = self.shoe.draw(is_face_down=(p is players.Dealer))
+            p.curr_hand.add(card)   
+        # for each player
+            # deal 1 card
+            # if that player is the dealer, the first card is face down
+            # deal each player a second card, all face up
 
     # def play(self, show_output=True):
     #     if show_output:

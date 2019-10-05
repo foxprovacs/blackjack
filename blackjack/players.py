@@ -13,6 +13,9 @@ class Player(ABC):
     def is_bust(self):
         return self.curr_hand.score() > 21
 
+    def clear(self):
+        self.curr_hand = cards.CardHand()
+
     @abstractmethod
     def should_hit(self):
         pass
@@ -24,7 +27,7 @@ class Player(ABC):
 class Dealer(Player):
 
     def __init__(self):
-        super(Dealer, self).__init__()
+        super(Dealer, self).__init__('Dealer')
         self.upcard = None
 
     def should_hit(self):
