@@ -6,7 +6,8 @@ from enum import Enum
 class GameStatus(Enum):
     Win = 1
     NotPlayed = 0
-    Loss = -1
+    Draw = 2
+    Loss = 3
 
 
 class Player(ABC):
@@ -16,9 +17,12 @@ class Player(ABC):
         self.name = name
         self.game = None
         self.game_flag = GameStatus.NotPlayed
+        self.wins = 0
+        self.losses = 0
+        self.draws = 0
 
-    def is_bust(self):
-        return self.curr_hand.score() > 21
+    # def is_bust(self):
+    #     return self.curr_hand.score() > 21
 
     def clear(self):
         self.curr_hand = cards.CardHand()
@@ -55,9 +59,9 @@ class SmartPlayer(Player):
 
     def should_hit(self):
         curr_score = self.curr_hand.score()
-        if self.is_bust():
+        if self.curr_hand.is_bust():
             return False
-        if curr_score <= 16 and self.game.dealer_showing() >= 10:
+        if curr_score <= 16 and self.game.dealer.showing() >= 10:
             return True
         else:
             return False
@@ -68,6 +72,19 @@ class CraftyCardCounterPlayer(Player):
     def should_hit(self):
         return True
 
+
+class PsychicPlayer(Player):
+
+    def should_hit(self):
+        # They can see what the dealer has
+        dealer_score = self.game.dealer.curr_hand.cards[0].get_value() + self.game.dealer.curr_hand.cards[1].get_value()
+        # print('dealer score = {}'.format(dealer_score))
+        if self.curr_hand.score() > dealer_score and dealer_score > 16:
+            return False
+        elif self.curr_hand.score() < dealer_score and dealer_score < 16:
+            return True
+        else:
+            return False            
 
 class LivePlayer(Player):
 

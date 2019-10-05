@@ -66,6 +66,7 @@ class Shoe:
 
     def draw(self, is_face_down=False):
         if len(self.cards) == 0:
+            print('Reshuffling the shoe...')
             self.reset()
         card = self.cards.pop()
         if is_face_down:
@@ -101,6 +102,9 @@ class CardHand:
 
     def is_blackjack(self):
         return self.score() == 21 & len(self.cards) == 2
+
+    def is_bust(self):
+        return self.score() > 21
 
     def score(self):
         """Calculate the value of the hand
