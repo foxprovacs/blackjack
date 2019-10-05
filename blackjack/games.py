@@ -32,15 +32,17 @@ class Game:
 
     def deal(self):
         table = self.players + [self.dealer]
-        #print('table', table)
         self.clear()
+        for i in range(0,2):
+            for p in table:
+                card = self.shoe.draw(is_face_down= ((i==0) & (isinstance(p, players.Dealer))))
+                p.curr_hand.add(card)   
+
+    def show_cards(self):
+        table = self.players + [self.dealer]
         for p in table:
-            card = self.shoe.draw(is_face_down=(p is players.Dealer))
-            p.curr_hand.add(card)   
-        # for each player
-            # deal 1 card
-            # if that player is the dealer, the first card is face down
-            # deal each player a second card, all face up
+            print(p, str(p.curr_hand))
+
 
     # def play(self, show_output=True):
     #     if show_output:

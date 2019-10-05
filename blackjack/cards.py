@@ -15,7 +15,11 @@ class Card:
         return self.value if (self.is_visible and not force_display) else '_'
 
     def __str__(self):
-        return '({0}:{1})'.format(self.value,self.suit)
+        if self.is_visible:
+            s = '({0}:{1})'.format(self.value,self.suit)
+        else:
+            s = '({0}:{1})'.format('?','?')
+        return s
 
     def get_value(self, ace_is_high=False):
         if self.value.isdigit():
@@ -79,6 +83,12 @@ class CardHand:
         self.is_blackjack = False
 
     def __repr__(self):
+        s = ''
+        for card in self.cards:
+            s += str(card) + ' '
+        return s
+
+    def __str__(self):
         s = ''
         for card in self.cards:
             s += str(card) + ' '

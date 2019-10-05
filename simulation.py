@@ -11,6 +11,8 @@ game.add_player(players.SmartPlayer('Smart Player 1'))
 print(game)
 
 game.deal()
+game.show_cards()
+
 # win_tracker = {}
 
 # number_of_hands = 10000

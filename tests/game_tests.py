@@ -2,35 +2,26 @@ import unittest
 from context import games, players
 
 
-class TestGame(unittest.TestCase):
+class GameTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.game = games.Game()
+        self.game.add_player(players.BasicPlayer('Player 1'))
+        self.game.add_player(players.BasicPlayer('Player 2'))
+        self.game.add_player(players.BasicPlayer('Player 3'))
+        
 
     def test_game_1(self):
-        game = games.Game()
-        player_1 = players.BasicPlayer('Player 1')
-        game.add_player(player_1)
-        actual = len(game.players)
-        expected = 1
+        actual = len(self.game.players)
+        self.assertTrue(actual > 0)
+
+
+    def test_game_2(self):
+        # After draw, dealer has one card face down
+        self.game.deal()
+        actual = self.game.dealer.curr_hand.cards[0].is_visible
+        expected = False
         self.assertEqual(actual, expected)
-
-    # def test_game_2(self):
-    #     # After draw, dealer has one card face down
-    #     game = games.Game()
-    #     player_1 = players.BasicPlayer('Player 1')
-    #     # print('player', player_1)
-    #     game.add_player(player_1)
-
-    #     table = game.players.extend([game.dealer])
-    #     print('players', len(game.players))
-    #     print('dealer', game.dealer)
-
-    #     print(game)
-
-    #     #actual = len(game.players)
-    #     #expected = 1
-    #     #game.deal()
-    #     #actual = game.dealer.curr_hand.cards[0].is_visible
-    #     #expected = False
-    #     self.assertEqual(1, 1)
 
     # def test_1(self):
     #     """ Dealer has blackjack """
