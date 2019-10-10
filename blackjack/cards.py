@@ -63,7 +63,7 @@ class Shoe:
 
     def reset(self):
         self.cards = []
-        for i in range(1, self.number_of_decks + 1):
+        for _ in range(1, self.number_of_decks + 1):
             self.cards = self.cards + Deck().cards
 
     def draw(self, is_face_down=False):
