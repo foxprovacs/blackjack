@@ -11,3 +11,4 @@ __pycache__/blackjack.cpython-36.pyc
 __pycache__/blackjack_players.cpython-36.pyc
 __pycache__/blackjack.cpython-36.pyc
 __pycache__/blackjack_players.cpython-36.pyc
+*.vscode
