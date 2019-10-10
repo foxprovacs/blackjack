@@ -1,5 +1,4 @@
 import unittest
-#from blackjack import Card, CardHand
 from context import cards.Card, cards.CardHand
 
 
@@ -7,7 +6,7 @@ class TestCardHands(unittest.TestCase):
 
     def test_1(self):
         hand = CardHand()
-        hand.add(Card('1','D'))
+        hand.add(Card('1', 'D'))
         hand.add(Card('2', 'D'))
 
         actual = hand.score()
@@ -16,7 +15,7 @@ class TestCardHands(unittest.TestCase):
 
     def test_2(self):
         hand = CardHand()
-        hand.add(Card('A','D'))
+        hand.add(Card('A', 'D'))
         hand.add(Card('J', 'D'))
 
         actual = hand.score()
@@ -25,7 +24,7 @@ class TestCardHands(unittest.TestCase):
 
     def test_3(self):
         hand = CardHand()
-        hand.add(Card('J','D'))
+        hand.add(Card('J', 'D'))
         hand.add(Card('A', 'D'))
 
         actual = hand.score()
@@ -34,7 +33,7 @@ class TestCardHands(unittest.TestCase):
 
     def test_4(self):
         hand = CardHand()
-        hand.add(Card('A','D'))
+        hand.add(Card('A', 'D'))
         hand.add(Card('A', 'D'))
         hand.add(Card('A', 'D'))
 
@@ -44,7 +43,7 @@ class TestCardHands(unittest.TestCase):
 
     def test_5(self):
         hand = CardHand()
-        hand.add(Card('A','D'))
+        hand.add(Card('A', 'D'))
         hand.add(Card('A', 'D'))
         hand.add(Card('A', 'D'))
         hand.add(Card('A', 'D'))
@@ -55,7 +54,7 @@ class TestCardHands(unittest.TestCase):
 
     def test_6(self):
         hand = CardHand()
-        hand.add(Card('A','D'))
+        hand.add(Card('A', 'D'))
         hand.add(Card('A', 'D'))
         hand.add(Card('J', 'D'))
 
@@ -65,7 +64,7 @@ class TestCardHands(unittest.TestCase):
 
     def test_7(self):
         hand = CardHand()
-        hand.add(Card('7','D'))
+        hand.add(Card('7', 'D'))
         hand.add(Card('K', 'D'))
 
         actual = hand.score()

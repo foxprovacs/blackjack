@@ -8,7 +8,8 @@ class Card:
         self.suit = suit
         self.is_visible = True
 
-        # Allows for cards to sort before counting values, so that Aces can be considered for 11 or 1.
+        # Allows for cards to sort before counting values, so that Aces can be
+        # considered for 11 or 1.
         self.rank_order = 2 if value is 'A' else 1
 
     def __repr__(self, force_display=False):
@@ -32,6 +33,7 @@ class Card:
                     return 1
             elif self.value in ['J', 'Q', 'K']:
                 return 10
+
 
 class Deck:
 
@@ -66,7 +68,7 @@ class Shoe:
 
     def draw(self, is_face_down=False):
         if len(self.cards) == 0:
-            print('Reshuffling the shoe...')
+            # print('Reshuffling the shoe...')
             self.reset()
         card = self.cards.pop()
         if is_face_down:
@@ -109,20 +111,23 @@ class CardHand:
     def score(self):
         """Calculate the value of the hand
 
-        Aces can count as 1 or 11, but in the case of holding multiple Aces only one can
-        count as 11. To account for this, cards are sorted first with Aces last. All Aces
-        will count as 1 by default. If the last card is an Ace, and the current hand value
-        is 10 or less, then that Ace will count as 11
+        Aces can count as 1 or 11, but in the case of holding multiple Aces
+        only one can count as 11. To account for this, cards are sorted first
+        with Aces last. All Aces will count as 1 by default. If the last card
+        is an Ace, and the current hand value is 10 or less, then that Ace
+        will count as 11
         """
 
         # Have Aces go last; easier to account for 11 or 1 values
-        sorted_cards = sorted(self.cards, key=lambda x: x.rank_order, reverse=False)
+        sorted_cards = sorted(self.cards, key=lambda x: x.rank_order,
+                              reverse=False)
 
         last_card_in_hand = sorted_cards[-1]
 
         curr_value = 0
         for card in sorted_cards:
-            curr_value += card.get_value(ace_is_high=(card == last_card_in_hand))
+            curr_value += card.get_value(
+                ace_is_high=(card == last_card_in_hand))
 
         if last_card_in_hand.value == 'A' and curr_value > 21:
             curr_value -= 10

@@ -3,29 +3,25 @@ import blackjack.players as players
 
 game = games.Game()
 game.add_player(players.BasicPlayer('Basic Player 1'))
-# game.add_player(players.BasicPlayer('Basic Player 2'))
-# game.add_player(players.BasicPlayer('Basic Player 3'))
-# game.add_player(players.BasicPlayer('Basic Player 4'))
+game.add_player(players.BasicPlayer('Basic Player 2'))
+game.add_player(players.BasicPlayer('Basic Player 3'))
+game.add_player(players.BasicPlayer('Basic Player 4'))
 game.add_player(players.SmartPlayer('Smart Player 1'))
-game.add_player(players.PsychicPlayer('Psychic Player 1'))
+# game.add_player(players.PsychicPlayer('Psychic Player 1'))
+# game.add_player(players.LivePlayer('Live Player 1'))
 
-
-# for p in game.players:
-#     print('{0}:{1} wins, {2} losses, {3} draws'.format(p.name, str(p.wins), str(p.losses), str(p.draws)))
-
-number_of_hands = 1000
+number_of_hands = 10000
 debug_output = False
-for i in range(1,number_of_hands+1):
-    #print('Playing game {0}'.format(str(i)))
+for i in range(1, number_of_hands+1):
     game.deal()
     game.play()
 
     if debug_output:
-        print(game) 
+        print(game)
 
 for p in game.players:
-    win_rate = p.wins / (p.wins + p.losses + p.draws)
-    success_rate = (p.wins + p.draws) / (p.wins + p.losses + p.draws)
-    print('{0}:{1} wins, {2} losses, {3} draws, {4} win rate, {5} success rate'.format(p.name, str(p.wins), str(p.losses), str(p.draws), str(win_rate), str(success_rate)))
-
-print(len(game.players))
+    win_rate = p.wins / (p.wins + p.losses)
+    loss_rate = p.losses / (p.wins + p.losses)
+    draw_rate = p.draws / (p.wins + p.losses + p.draws)
+    print('{0}:{1} wins, {2} losses, {3} draws, {4:.2f} win rate, {5:.2f} loss rate, {6:.2f} draw rate, '
+          .format(p.name, p.wins, p.losses, p.draws, win_rate, loss_rate, draw_rate))

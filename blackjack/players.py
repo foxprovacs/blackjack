@@ -61,7 +61,7 @@ class SmartPlayer(Player):
         curr_score = self.curr_hand.score()
         if self.curr_hand.is_bust():
             return False
-        if curr_score <= 16 and self.game.dealer.showing() >= 10:
+        if self.game.dealer.showing() <= 6:
             return True
         else:
             return False
@@ -77,18 +77,21 @@ class PsychicPlayer(Player):
 
     def should_hit(self):
         # They can see what the dealer has
-        dealer_score = self.game.dealer.curr_hand.cards[0].get_value() + self.game.dealer.curr_hand.cards[1].get_value()
-        # print('dealer score = {}'.format(dealer_score))
+        dealer_score = self.game.dealer.curr_hand.cards[0].get_value()
+        + self.game.dealer.curr_hand.cards[1].get_value()
+
         if self.curr_hand.score() > dealer_score and dealer_score > 16:
             return False
         elif self.curr_hand.score() < dealer_score and dealer_score < 16:
             return True
         else:
-            return False            
+            return False
+
 
 class LivePlayer(Player):
 
     def should_hit(self):
+        print('You are showing: ' + str(self.curr_hand))
         if self.curr_hand.score() < 21:
             x = input('(H)it or (S)tay? ')
             return x.upper() == 'H'
