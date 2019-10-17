@@ -32,3 +32,10 @@ And then run the simulation:
 ```python
 python simulations.py
 ```
+
+Output is currently:
+
+```python
+Basic Player 1: 4167 wins, 4846 losses, 987 draws, 0.46 win rate, 0.54 loss rate, 0.10 draw rate
+Smart Player 1: 4173 wins, 5168 losses, 659 draws, 0.45 win rate, 0.55 loss rate, 0.07 draw rate
+```
