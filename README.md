@@ -1,18 +1,8 @@
 # blackjack
 
-A simple Python simulation for blackjack games, originally written to help me jump back into Python. It started off as a very simple console game, which can be run by using:
+A simple Python simulation for blackjack, allowing you to test different strategies by creating a new player and defining their strategy.
 
-```python
-python main.py
-```
-
-Or you can run simulations to test various strategies by running:
-
-```python
-python simulations.py
-```
-
-In each you can add any number of players besides the dealer, with each player type being a subclass of a Player class. Player has one abstract method:
+A new player is created by subclass the Player class and then defining the strategy by implementing the abstract should_hit method:
 
 ```python
 @abstractmethod
@@ -20,7 +10,7 @@ def should_hit(self):
     pass
 ```
 
-A player can be very generic (and likely not very good):
+For example:
 
 ```python
 class BasicPlayer(Player):
@@ -29,4 +19,17 @@ class BasicPlayer(Player):
         return self.hand.score() <= 10
 ```
 
-Or they can be a bit more sophisticated and base their hit/stay on factors such as all face up cards on the table, some memory of the last couple of rounds, etc.
+
+To run a simulation, simply add new players to simulation.py:
+
+```python
+game = games.Game()
+game.add_player(players.BasicPlayer('Basic Player 1'))
+game.add_player(players.SmartPlayer('Smart Player 1'))
+```
+
+And then run the simulation:
+
+```python
+python simulations.py
+```
