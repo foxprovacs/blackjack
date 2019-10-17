@@ -2,7 +2,7 @@
 
 A simple Python simulation for blackjack, allowing you to test different strategies by creating a new player and defining their strategy.
 
-A new player is created by subclass the Player class and then defining the strategy by implementing the abstract should_hit method:
+A new player is created by subclassing the Player class and then defining the strategy by implementing the abstract should_hit method:
 
 ```python
 @abstractmethod
@@ -18,7 +18,6 @@ class BasicPlayer(Player):
     def should_hit(self):
         return self.hand.score() <= 10
 ```
-
 
 To run a simulation, simply add new players to simulation.py:
 
