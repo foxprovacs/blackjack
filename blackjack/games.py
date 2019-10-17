@@ -53,6 +53,7 @@ class Game:
         self.set_winners()
 
     def set_winners(self):
+    # TODO: Refactor this method
         dealer_score = self.dealer.curr_hand.score()
         for p in self.players:
             curr_player_score = p.curr_hand.score()

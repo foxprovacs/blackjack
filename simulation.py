@@ -7,8 +7,6 @@ game.add_player(players.BasicPlayer('Basic Player 2'))
 game.add_player(players.BasicPlayer('Basic Player 3'))
 game.add_player(players.BasicPlayer('Basic Player 4'))
 game.add_player(players.SmartPlayer('Smart Player 1'))
-# game.add_player(players.PsychicPlayer('Psychic Player 1'))
-# game.add_player(players.LivePlayer('Live Player 1'))
 
 number_of_hands = 10000
 debug_output = False

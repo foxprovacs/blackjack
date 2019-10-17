@@ -21,9 +21,6 @@ class Player(ABC):
         self.losses = 0
         self.draws = 0
 
-    # def is_bust(self):
-    #     return self.curr_hand.score() > 21
-
     def clear(self):
         self.curr_hand = cards.CardHand()
         self.game_flag = GameStatus.NotPlayed
@@ -58,34 +55,7 @@ class BasicPlayer(Player):
 class SmartPlayer(Player):
 
     def should_hit(self):
-        curr_score = self.curr_hand.score()
-        if self.curr_hand.is_bust():
-            return False
-        if self.game.dealer.showing() <= 6:
-            return True
-        else:
-            return False
-
-
-class CraftyCardCounterPlayer(Player):
-
-    def should_hit(self):
-        return True
-
-
-class PsychicPlayer(Player):
-
-    def should_hit(self):
-        # They can see what the dealer has
-        dealer_score = self.game.dealer.curr_hand.cards[0].get_value()
-        + self.game.dealer.curr_hand.cards[1].get_value()
-
-        if self.curr_hand.score() > dealer_score and dealer_score > 16:
-            return False
-        elif self.curr_hand.score() < dealer_score and dealer_score < 16:
-            return True
-        else:
-            return False
+        return self.curr_hand.score() <= 11 and self.game.dealer.showing() <= 12
 
 
 class LivePlayer(Player):
