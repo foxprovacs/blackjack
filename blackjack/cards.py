@@ -6,6 +6,8 @@ class Card:
     def __init__(self, value, suit):
         self.value = value
         self.suit = suit
+
+        # Whether or not the card is visible to the player
         self.is_visible = True
 
         # Allows for cards to sort before counting values, so that Aces can be

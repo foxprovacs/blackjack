@@ -6,10 +6,10 @@ game.add_player(players.BasicPlayer('Basic Player 1'))
 game.add_player(players.BasicPlayer('Basic Player 2'))
 game.add_player(players.BasicPlayer('Basic Player 3'))
 game.add_player(players.BasicPlayer('Basic Player 4'))
-game.add_player(players.SmartPlayer('Smart Player 1'))
+# game.add_player(players.SmartPlayer('Smart Player 1'))
 
-number_of_hands = 10000
-debug_output = False
+number_of_hands = 1
+debug_output = True
 for i in range(1, number_of_hands+1):
     game.deal()
     game.play()

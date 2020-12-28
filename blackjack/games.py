@@ -36,7 +36,11 @@ class Game:
         table = self.players + [self.dealer]
         for i in range(0, 2):
             for p in table:
-                card = self.shoe.draw(is_face_down=((i == 0) & (isinstance(p, players.Dealer))))
+
+                # Dealer's first card is dealt face down
+                is_face_down = (i == 0) & (isinstance(p, players.Dealer))
+                
+                card = self.shoe.draw(is_face_down=is_face_down)
                 p.curr_hand.add(card)
 
     def play(self):
