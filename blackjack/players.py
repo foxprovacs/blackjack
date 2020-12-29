@@ -11,6 +11,7 @@ class GameStatus(Enum):
 
 
 class Player(ABC):
+    """ An abstract class representing a generic player or the dealer. """
 
     def __init__(self, name=''):
         self.curr_hand = cards.CardHand()
@@ -27,6 +28,7 @@ class Player(ABC):
 
     @abstractmethod
     def should_hit(self):
+        """ The primary method definining each player strategy. """
         pass
 
     def __repr__(self):
@@ -37,7 +39,6 @@ class Dealer(Player):
 
     def __init__(self):
         super(Dealer, self).__init__('Dealer')
-        self.upcard = None
 
     def should_hit(self):
         return self.curr_hand.score() <= 16
@@ -55,8 +56,27 @@ class BasicPlayer(Player):
 class SmartPlayer(Player):
 
     def should_hit(self):
-        return self.curr_hand.score() <= 11 and self.game.dealer.showing() <= 12
+        dealer_score = self.game.dealer.showing()
+        my_score = self.curr_hand.score()
+        if dealer_score <= 12 and my_score <= 11:
+            return True
+        elif dealer_score <= 16 and my_score <= 15:
+            return True
+        else:
+            return False
 
+
+class PyschicPlayer(Player):
+
+    def should_hit(self):
+        dealer_score = self.game.dealer.curr_hand.score()
+        my_score = self.curr_hand.score()
+        next_card = self.game.shoe.peek()
+        if (dealer_score > my_score) and (my_score + next_card <= 21):
+            return True
+        else:
+            return False
+        
 
 class LivePlayer(Player):
 

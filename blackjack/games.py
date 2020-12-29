@@ -12,7 +12,6 @@ class Game:
         self.dealer = players.Dealer()
 
     def add_player(self, player):
-        # print('Adding player {0} to game'.format(player.name))
         self.players.append(player)
         player.game = self
 
@@ -46,7 +45,6 @@ class Game:
     def play(self):
         table = self.players + [self.dealer]
         for p in table:
-
             if isinstance(p, players.Dealer):
                 p.curr_hand.cards[0].is_visible = True
 
@@ -57,7 +55,6 @@ class Game:
         self.set_winners()
 
     def set_winners(self):
-    # TODO: Refactor this method
         dealer_score = self.dealer.curr_hand.score()
         for p in self.players:
             curr_player_score = p.curr_hand.score()

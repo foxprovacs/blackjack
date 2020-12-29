@@ -2,15 +2,16 @@ import random
 
 
 class Card:
+    """ A single playing card, identified by a value and a suit. """
 
     def __init__(self, value, suit):
         self.value = value
         self.suit = suit
 
-        # Whether or not the card is visible to the player
+        # Whether or not the dealer's card is visible to the player
         self.is_visible = True
 
-        # Allows for cards to sort before counting values, so that Aces can be
+        # Allows for cards to be sorted before counting values, so that Aces can be
         # considered for 11 or 1.
         self.rank_order = 2 if value is 'A' else 1
 
@@ -38,6 +39,7 @@ class Card:
 
 
 class Deck:
+    """ A standard 52-card deck of cards. """
 
     def __init__(self, shuffle=True):
         self.cards = []
@@ -52,6 +54,7 @@ class Deck:
 
 
 class Shoe:
+    """ A shoe contains multiple decks of cards. """
 
     def __init__(self, number_of_decks=8):
         self.cards = []
@@ -69,17 +72,28 @@ class Shoe:
             self.cards = self.cards + Deck().cards
 
     def draw(self, is_face_down=False):
+        # If there are no more cards in the shoe, a new shoe will be used
         if len(self.cards) == 0:
-            # print('Reshuffling the shoe...')
             self.reset()
+
         card = self.cards.pop()
         if is_face_down:
             card.is_visible = False
         self.cards_drawn.append(card)
         return card
 
+    def peek(self):
+        # A sneak peek of the next card in the deck, only used for some
+        # playing strategies.
+        if len(self.cards) > 0:
+            card = self.cards[-1]
+            return card.get_value()
+        else:
+            return 0
+
 
 class CardHand:
+    """ The main unit of cards held by each player. """
 
     def __init__(self):
         self.cards = []
